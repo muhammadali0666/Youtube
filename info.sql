@@ -8,3 +8,6 @@ CREATE TABLE users(
 );
 
 INSERT INTO users(username, email, password) VALUES('Muhammadali', 'muhammadali@gmail.com', 'muhammadali1111');
+
+ALTER TABLE users  
+ADD COLUMN password VARCHAR(250);

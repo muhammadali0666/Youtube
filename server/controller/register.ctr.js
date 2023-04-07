@@ -1,4 +1,6 @@
 const pool = require("../config/db.config.js");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const getUsers = async (req, res) => {
   const reader = await pool.query(`select * from users`);
@@ -14,10 +16,14 @@ const authRegister = async (req, res) => {
       [email]
     );
 
+    const hashPassword = await bcrypt.hash(password, 12);
+
+    console.log(hashPassword);
+
     if (!foundedUser.rows[0]) {
       await pool.query(
         `insert into users(username, email, password) values($1, $2, $3)`,
-        [username, email, password]
+        [username, email, hashPassword]
       );
       return res.send({
         msg: "You are registrated",
@@ -30,7 +36,51 @@ const authRegister = async (req, res) => {
   }
 };
 
+const authLogin = async (req, res) => {
+  try{
+    const { email, password } = req.body;
+
+  const foundedUser = await pool.query(`select * from users where email = $1`, [
+    email,
+  ]);
+
+  if (!foundedUser.rows.length) {
+    return res.send({
+      msg: "you haven't registated",
+    });
+  }
+
+  const find = foundedUser.rows[0].id;
+  const user = await pool.query(`select * from users where id = $1`, [find]);
+
+  let end = user.rows[0].password;
+
+  const checkhash = await bcrypt.compare(password, end);
+  if (checkhash) {
+    let token = jwt.sign(
+      { id: find, email: email, password: password },
+      process.env.SEKRET_KEY,
+      {
+        expiresIn: "24h",
+      }
+    );
+    return res.send({
+      msg: "Success",
+      token,
+    });
+  } else {
+    res.send({
+      msg: "Password wrong",
+    });
+  }
+  }
+  catch{
+    res.send("error")
+  }
+};
+
 module.exports = {
   getUsers,
   authRegister,
+  authLogin,
 };
