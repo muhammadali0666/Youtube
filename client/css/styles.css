@@ -3,6 +3,21 @@ html {
     overflow: scroll;
     overflow-x: hidden;
 }
+
+.result {
+    margin-left: 23px;
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 50px;
+}
+
+.channels {
+    margin-top: 0px;
+}
+
+.logout {
+   margin-left: 85vw;
+}
 *,
 *::after,
 *::before {
@@ -97,6 +112,7 @@ header.header {
 .header-left {
     display: flex;
     align-items: center;
+    justify-content: space-between;
 }
 .header-left .toggle-menu {
     margin-right: 16px;

@@ -2,6 +2,7 @@ const pool = require("../config/db.config.js");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+
 const getUsers = async (req, res) => {
   const reader = await pool.query(`select * from users`);
   res.send(reader.rows);
@@ -9,6 +10,22 @@ const getUsers = async (req, res) => {
 
 const authRegister = async (req, res) => {
   try {
+
+    // if (req.files) {
+    //   console.log(req.files);
+    //   let files = req.files.file;
+    //   let filename = Date.now() + path.extname(files.name);
+  
+    //   files.mv("img/" + filename, function (err) {
+    //     if (err) {
+    //       res.send(err);
+    //     } else {
+    //       res.send({
+    //         img: `/img/${filename}`,
+    //       });
+    //     }
+    //   });
+    // }
     const { username, email, password } = req.body;
 
     const foundedUser = await pool.query(
@@ -17,8 +34,6 @@ const authRegister = async (req, res) => {
     );
 
     const hashPassword = await bcrypt.hash(password, 12);
-
-    console.log(hashPassword);
 
     if (!foundedUser.rows[0]) {
       await pool.query(
@@ -29,7 +44,9 @@ const authRegister = async (req, res) => {
         msg: "You are registrated",
       });
     } else {
-      return res.send("email already exists");
+      return res.send({
+        msg: "email already exists"
+      });
     }
   } catch {
     res.send("error");

@@ -11,3 +11,6 @@ INSERT INTO users(username, email, password) VALUES('Muhammadali', 'muhammadali@
 
 ALTER TABLE users  
 ADD COLUMN password VARCHAR(250);
+
+ALTER TABLE users
+add COLUMN profile_img VARCHAR(50);

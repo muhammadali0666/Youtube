@@ -17,12 +17,12 @@
             <form action="#" class="site-form">
                 <h1 class="title">Sign in</h1>
                 <label>
-                    <span class="zmdi zmdi-account"></span>
-                    <input type="text" id="usernameInput" placeholder="Your name">
+                    <span class="zmdi zmdi-email"></span>
+                    <input class="email" type="email" id="emailInput" placeholder="Your email" required>
                 </label>
                 <label>
                     <span class="zmdi zmdi-lock"></span>
-                    <input type="password" id="passwordInput" placeholder="Password">
+                    <input class="password" type="password" id="passwordInput" placeholder="Password">
                     <button class="zmdi zmdi-eye" id="showButton" type="button"></button>
                 </label>
                 <input type="submit" value="Log in" id="submitButton">
@@ -31,6 +31,8 @@
             <img src="img/signin-image.jpg" alt="signin-image" class="signin-image">
         </div>
     </div>
+
+    <script src="./js/login.js"></script>
 
 </body>
 </html>

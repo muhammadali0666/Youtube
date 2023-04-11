@@ -3,17 +3,14 @@ const elUsername = document.querySelector(".input_username");
 const elEmail = document.querySelector(".input_email");
 const elPassword = document.querySelector(".input_passwod");
 
-elForm.addEventListener("submit", async function (e) {
-  e.preventDefault();
+elForm.addEventListener("submit", async function (evt) {
+  evt.preventDefault();
 
   const username_value = elUsername.value;
   const email_value = elEmail.value;
   const password_value = elPassword.value;
 
-  console.log(username_value);
-  console.log(email_value);
-  console.log(password_value);
-  await fetch("http://localhost:4001/users/post", {
+  await fetch("http://localhost:4001/users/register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -23,6 +20,7 @@ elForm.addEventListener("submit", async function (e) {
       email: email_value,
       password: password_value,
     }),
-  }).then((response) => response.json());
-  // .then(response => console.log(JSON.stringify(response)))
+  }).then((response) => response.json())
+  .then((data) => alert(data.msg))
+  window.location.href = 'http://127.0.0.1:5500/client/login.html';
 });
